@@ -4,13 +4,12 @@
 'use strict'
 
 import {
-	StyleSheet,
-	View,
-	Image,
-	Text,
-	TouchableHighlight,
-	Dimensions,
-	Animated
+    StyleSheet,
+    View,
+    Image,
+    Text,
+    TouchableHighlight,
+    Dimensions,
 } from 'react-native';
 import React, {Component} from 'react'
 
@@ -22,8 +21,8 @@ export default class TabBar extends Component {
     static defaultProps = {
         defaultPage: 0,
         navFontSize: 14,
-        navTextColor: 'black',
-        navTextColorSelected: '#FF9100',
+        navTextColor: '#909090',
+        navTextColorSelected: '#366AE0',
     };
 
     static propTypes = {
@@ -39,12 +38,11 @@ export default class TabBar extends Component {
     constructor(props) {
         super(props);
 
-		this.visibles = [];
-		this.state = {
-			selectedIndex: 0,
-			toggleBarValue: new Animated.Value(0)
-		}
-	}
+        this.visibles = [];
+        this.state = {
+            selectedIndex: 0,
+        }
+    }
 
     getBadge(child) {
         let value = 0;
@@ -69,31 +67,16 @@ export default class TabBar extends Component {
           );
         }
     }
-	//放大按钮
-	_stressPoint (child){
-		return child.props.point;
-	}
+    //放大按钮
+    _stressPoint (child){
+        return child.props.point;
+    }
 
-	//隐藏底部bar
-	_toggleBar (t, def){
-		if (def){
-			return this.setState({
-				toggleBarValue: new Animated.Value(-85)
-			})
-		}
-		Animated.timing(
-			this.state.toggleBarValue,{
-				toValue: t? -85: 0,
-				duration: 350,
-			}
-		).start()
-	}
-
-	render() {
-		let children = this.props.children;
-		if (!children.length) {
-			throw new Error("at least two child component are needed.");
-		}
+    render() {
+        let children = this.props.children;
+        if (!children.length) {
+            throw new Error("at least two child component are needed.");
+        }
 
         // 底部tab按钮组
         let navs = [];
@@ -148,12 +131,12 @@ export default class TabBar extends Component {
 
                 <View style={styles.horizonLine}/>
 
-				<Animated.View style={[styles.nav, {marginBottom: this.state.toggleBarValue}]}>
-					{navs}
-				</Animated.View>
-			</View>
-		);
-	}
+                <View style={styles.nav}>
+                    {navs}
+                </View>
+            </View>
+        );
+    }
 
     componentDidMount() {
         let page = this.props.defaultPage;
@@ -162,15 +145,8 @@ export default class TabBar extends Component {
             page = 0;
         }
 
-		this.update(page);
-		// 默认隐藏底部bar
-		if (this.props.toggle) this._toggleBar(true, 'default')
-	}
-
-	componentWillReceiveProps(nextProps) {
-		// 隐藏底部bar
-		this._toggleBar(nextProps.toggle)
-	}
+        this.update(page);
+    }
 
     update(index) {
         this.visibles[index] = true;
@@ -226,26 +202,26 @@ const styles = StyleSheet.create({
         height: 24,
         marginBottom: 2,
     },
-	navImageChange: {
-		top: -28,
-		width: 56,
-		height: 56,
-		marginBottom: 2,
-		position: 'absolute',
-		borderRadius: 28,
-		borderWidth: 3,
-		borderColor: '#fff',
-		alignSelf: 'center'
-	},
+    navImageChange: {
+        top: -28,
+        width: 56,
+        height: 56,
+        marginBottom: 2,
+        position: 'absolute',
+        borderRadius: 28,
+        borderWidth: 3,
+        borderColor: '#fff',
+        alignSelf: 'center'
+    },
     navTextChange: {
         marginTop: 30,
-	    fontSize: 11,
-	    alignSelf: 'center'
+        fontSize: 11,
+        alignSelf: 'center'
     },
-	navText: {
-		marginTop: 2,
+    navText: {
+        marginTop: 2,
         alignSelf: 'center',
-	},
+    },
     horizonLine: {
         backgroundColor: '#adadad',
         height: 1,
